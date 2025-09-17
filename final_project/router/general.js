@@ -22,28 +22,67 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
+// public_users.get('/',function (req, res) {
+//   //Write your code here
+//   res.send(JSON.stringify(books,null,4));
+// });
+
+// Get the book list available in the shop using async await
+public_users.get('/', async function (req, res) {
   //Write your code here
-  res.send(JSON.stringify(books,null,4));
+  const getBooks = new Promise((resolve, reject) => {
+      resolve(books);
+  });
+  let allBooks = await getBooks;
+  res.send(JSON.stringify(allBooks,null,4));
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
+// public_users.get('/isbn/:isbn',function (req, res) {
+//   //Write your code here
+//   const isbn = req.params.isbn;
+//   let filteredBooks = books[isbn];
+//   if(filteredBooks){
+//       res.send(filteredBooks);
+//   }else{
+//       res.send({message: "Book not found"});
+//   }
+//  });
+// Get book details based on ISBN using async await
+public_users.get('/isbn/:isbn', async function (req, res) {
   //Write your code here
-  const isbn = req.params.isbn;
-  let filteredBooks = books[isbn];
-  if(filteredBooks){
-      res.send(filteredBooks);
+  const isbn = req.params.isbn; 
+  const getBook = new Promise((resolve, reject) => {
+      resolve(books[isbn]);
+  });
+  let book = await getBook;
+  if(book){
+      res.send(book);
   }else{
       res.send({message: "Book not found"});
   }
- });
-  
-// Get book details based on author
-public_users.get('/author/:author',function (req, res) {
+});
+
+// // Get book details based on author
+// public_users.get('/author/:author',function (req, res) {
+//   //Write your code here
+//   const author = req.params.author;
+//   let filteredBooks = Object.values(books).filter(book => book.author === author);
+//   if(filteredBooks.length > 0){
+//       res.send(filteredBooks);
+//   }else{
+//       res.send({message: "Book not found"});
+//   }
+// });
+
+// Get book details based on author using async await
+public_users.get('/author/:author', async function (req, res) {
   //Write your code here
-  const author = req.params.author;
-  let filteredBooks = Object.values(books).filter(book => book.author === author);
+  const author = req.params.author; 
+  const getBooks = new Promise((resolve, reject) => {
+      resolve(Object.values(books).filter(book => book.author === author));
+  });
+  let filteredBooks = await getBooks; 
   if(filteredBooks.length > 0){
       res.send(filteredBooks);
   }else{
@@ -51,10 +90,23 @@ public_users.get('/author/:author',function (req, res) {
   }
 });
 
-// Get all books based on title
-public_users.get('/title/:title',function (req, res) {
-  const title = req.params.title;
-  let filteredBooks = Object.values(books).filter(book => book.title === title);
+// // Get all books based on title
+// public_users.get('/title/:title',function (req, res) {
+//   const title = req.params.title;
+//   let filteredBooks = Object.values(books).filter(book => book.title === title);
+//   if(filteredBooks.length > 0){
+//       res.send(filteredBooks);
+//   }else{
+//       res.send({message: "Book not found"});
+//   }
+// });
+// Get all books based on title using async await
+public_users.get('/title/:title', async function (req, res) {
+  const title = req.params.title; 
+  const getBooks = new Promise((resolve, reject) => {
+      resolve(Object.values(books).filter(book => book.title === title));
+  });
+  let filteredBooks = await getBooks;
   if(filteredBooks.length > 0){
       res.send(filteredBooks);
   }else{
