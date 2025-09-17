@@ -33,9 +33,9 @@ public_users.get('/isbn/:isbn',function (req, res) {
   const isbn = req.params.isbn;
   let filteredBooks = books[isbn];
   if(filteredBooks){
-      return res.status(200).json(filteredBooks);
+      res.send(filteredBooks);
   }else{
-      return res.status(404).json({message: "Book not found"});
+      res.send({message: "Book not found"});
   }
  });
   
@@ -45,9 +45,9 @@ public_users.get('/author/:author',function (req, res) {
   const author = req.params.author;
   let filteredBooks = Object.values(books).filter(book => book.author === author);
   if(filteredBooks.length > 0){
-      return res.status(200).json(filteredBooks);
+      res.send(filteredBooks);
   }else{
-      return res.status(404).json({message: "Book not found"});
+      res.send({message: "Book not found"});
   }
 });
 
@@ -56,9 +56,9 @@ public_users.get('/title/:title',function (req, res) {
   const title = req.params.title;
   let filteredBooks = Object.values(books).filter(book => book.title === title);
   if(filteredBooks.length > 0){
-      return res.status(200).json(filteredBooks);
+      res.send(filteredBooks);
   }else{
-      return res.status(404).json({message: "Book not found"});
+      res.send({message: "Book not found"});
   }
 });
 
